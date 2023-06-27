@@ -22,26 +22,34 @@ Example 3:
 Input: nums = [1], target = 0
 Output: -1'''
 
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-
+class Solution(object):
+    def search(self, nums, target):
         if not nums:
             return -1
 
         pivot = self.find_pivot(nums)
+        
+        # If the target is the same as the pivot element, return pivot
         if nums[pivot] == target:
             return pivot
-        if nums[0] <= target:  # target is in the left part
-            return self.binary_search(nums, 0, pivot-1, target)
-        else:  # target is in the right part
-            return self.binary_search(nums, pivot+1, len(nums)-1, target)
+        # If the array is not rotated
+        if pivot == 0:
+            return self.binary_search(nums, 0, len(nums) - 1, target)
+        # If the target is the same as the first element in the array, return 0
+        if nums[0] == target:
+            return 0
+        # If the target is greater than the first element in the array, search in the first half
+        if nums[0] < target:
+            return self.binary_search(nums, 0, pivot, target)
+        # If the target is less than the first element in the array, search in the second half
+        return self.binary_search(nums, pivot, len(nums) - 1, target)
     
     def find_pivot(self, nums):
         left, right = 0, len(nums) - 1
         while left < right:
             mid = (left + right) // 2
             if nums[mid] > nums[right]:  # pivot point is in second half
-                left = mid +1
+                left = mid + 1
             else:  # pivot point is in first half or mid point
                 right = mid
         return left
