@@ -23,17 +23,18 @@ The number of nodes in the list is the range [0, 5000].
 '''
 
 
+# Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def reverseList(self, head):
         prev = None
-        current = head
-        while current:
-            next = current.next
-            current.next = prev
-            prev = current
-            current = next
+
+        while head:
+                 temp = head.next
+                 head.next = prev
+                 prev = head
+                 head = temp
         return prev
